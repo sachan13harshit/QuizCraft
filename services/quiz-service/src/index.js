@@ -22,13 +22,11 @@ await connectDB();
 // Security middleware
 app.use(helmet());
 
-// CORS configuration
-const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+app.use(cors({
+  origin: [process.env.FRONTEND_URL || 'http://localhost:5173'], 
+  methods: ["GET", "PUT", "POST", "DELETE"], 
   credentials: true,
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
+}));
 
 // Logging middleware
 app.use(morgan('combined'));
@@ -47,23 +45,14 @@ app.get('/health', (req, res) => {
   });
 });
 
-// API Routes
-app.use('/api/quizzes', quizRoutes);
-app.use('/api/questions', questionRoutes);
-app.use('/api/responses', responseRoutes);
+app.use("/quizzes", quizRoutes); // quiz routes
+app.use("/questions", questionRoutes); // question routes
+app.use("/responses", responseRoutes); // response routes
 
-// Basic API info route
-app.get('/api', (req, res) => {
-  res.json({
+app.get('/', (req, res) => {
+  res.status(200).json({
     success: true,
-    message: 'Quiz Service API is working',
-    version: '1.0.0',
-    endpoints: {
-      health: '/health',
-      quizzes: '/api/quizzes',
-      questions: '/api/questions',
-      responses: '/api/responses'
-    }
+    message: 'Quiz Service is running',
   });
 });
 
@@ -86,14 +75,9 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Quiz Service running on port ${PORT}`);
-  console.log(`📖 Health check: http://localhost:${PORT}/health`);
-  console.log(`🧠 API Base URL: http://localhost:${PORT}/api`);
-  console.log(`📝 Quizzes: http://localhost:${PORT}/api/quizzes`);
-  console.log(`❓ Questions: http://localhost:${PORT}/api/questions`);
-  console.log(`📊 Responses: http://localhost:${PORT}/api/responses`);
+  console.log(`Server running on port ${PORT}`);
+  console.log('Current NODE_ENV:', process.env.NODE_ENV);
 });
 
 // Graceful shutdown

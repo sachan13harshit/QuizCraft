@@ -12,7 +12,7 @@ export const authenticateToken = async (req, res, next) => {
 
   try {
     // Fetch user data from auth service to validate token
-    const response = await fetch('http://localhost:3001/api/auth/me', {
+    const response = await fetch('http://localhost:3001/auth/me', {
       headers: {
         'Authorization': `Bearer ${token}`
       }

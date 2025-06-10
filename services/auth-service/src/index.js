@@ -18,14 +18,11 @@ connectDB();
 // Security middleware
 app.use(helmet());
 
-// CORS configuration
-const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+app.use(cors({
+  origin: [process.env.FRONTEND_URL || 'http://localhost:5173'], 
+  methods: ["GET", "PUT", "POST", "DELETE"], 
   credentials: true,
-  optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
+}));
 
 // Logging middleware
 app.use(morgan('combined'));
@@ -52,8 +49,7 @@ app.get('/health', (req, res) => {
   });
 });
 
-// API routes
-app.use('/api/auth', authRoutes);
+app.use("/auth", authRoutes);
 
 // 404 handler
 app.use('*', (req, res) => {
@@ -74,11 +70,9 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Auth Service running on port ${PORT}`);
-  console.log(`📖 Health check: http://localhost:${PORT}/health`);
-  console.log(`🔐 API Base URL: http://localhost:${PORT}/api/auth`);
+  console.log(`Server running on port ${PORT}`);
+  console.log('Current NODE_ENV:', process.env.NODE_ENV);
 });
 
 export default app; 

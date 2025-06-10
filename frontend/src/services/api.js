@@ -1,6 +1,6 @@
 const API_CONFIG = {
-  AUTH_SERVICE: import.meta.env.VITE_AUTH_SERVICE_URL || 'http://localhost:3001/api',
-  QUIZ_SERVICE: import.meta.env.VITE_QUIZ_SERVICE_URL || 'http://localhost:3002/api'
+  AUTH_SERVICE: import.meta.env.VITE_AUTH_SERVICE_URL || 'http://localhost:3001',
+  QUIZ_SERVICE: import.meta.env.VITE_QUIZ_SERVICE_URL || 'http://localhost:3002'
 };
 
 // Get auth token from localStorage
