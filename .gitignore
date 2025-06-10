@@ -1,0 +1,5 @@
+services/auth-service/.env
+services/quiz-service/.env
+services/auth-service/node_modules
+services/quiz-service/node_modules
+
